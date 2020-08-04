@@ -1,6 +1,6 @@
-import { defaults as defaultControls, Control } from "ol/control.js";
+import { Control } from "ol/control.js";
 import Draw from 'ol/interaction/Draw';
-import './App.css';
+
 
 export const drawTools = /*@__PURE__*/(function (Control) {
   var drawInteraction;
@@ -59,6 +59,17 @@ export const drawTools = /*@__PURE__*/(function (Control) {
     }
 
     var element = document.createElement('div');
+
+    if(options.display && options.display.toLowerCase() !== "block"){element.style.display = "flex";}
+
+    if(options.top){ element.style.top = options.top + "em" };
+    
+    if(options.bottom){element.style.bottom = options.bottom + "em" };
+
+    if(options.left){element.style.left = options.left + "em"  };
+
+    if(options.right){element.style.right = options.left + "em"  };
+
     element.className = 'side-tools ol-unselectable ol-control';
 
     buttonArr.forEach(btn => {

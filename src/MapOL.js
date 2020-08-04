@@ -20,7 +20,7 @@ var vector = new VectorLayer({
 vector.set("layername", "vector", true);
 
 const olMap = new Map({
-  controls: defaultControls().extend([new ScaleLine(), new FullScreen(), new drawTools({drawTypes:['Polygon','Circle','Line','Point']})]),
+  controls: defaultControls().extend([new ScaleLine(), new FullScreen(), new drawTools({drawTypes:['Polygon','Circle','Line','Point'],top:5.5,left:.5})]),
   layers: [
     
     new TileLayer({
