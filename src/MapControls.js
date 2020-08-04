@@ -10,8 +10,7 @@ export const drawTools = /*@__PURE__*/(function (Control) {
     var buttonArr = [];
 
     for (var i = 0; i <= options.drawTypes.length; i++) {
-      debugger;
-      let type = options.drawTypes[i]? options.drawTypes[i].toLowerCase(): null;
+      let type = options.drawTypes[i] ? options.drawTypes[i].toLowerCase() : null;
       var button = document.createElement('button');
       var Icon = document.createElement('i');
       if (type) {
@@ -26,7 +25,7 @@ export const drawTools = /*@__PURE__*/(function (Control) {
             break;
           case 'line':
             // code block
-            Icon.className = "fas fa-draw-polygon";
+            Icon.className = "fas fa-grip-lines";
             button.appendChild(Icon);
             button.setAttribute('Title', ' Draw Line');
             button.setAttribute('Type', 'line');
@@ -68,16 +67,16 @@ export const drawTools = /*@__PURE__*/(function (Control) {
 
       switch (type) {
         case 'polygon':
-          btn.addEventListener('click', this.polygon.bind(this), false);
+          btn.addEventListener('click', function () {this.polygon(btn)}.bind(this), false);
           break;
         case 'line':
-          btn.addEventListener('click', this.line.bind(this), false);
+          btn.addEventListener('click', function (){this.line(btn)}.bind(this), false);
           break;
         case 'circle':
-          btn.addEventListener('click', this.circle.bind(this), false);
+          btn.addEventListener('click', function () {this.circle(btn)}.bind(this), false);
           break;
         case 'point':
-          btn.addEventListener('click', this.point.bind(this), false);
+          btn.addEventListener('click', function () {this.point(btn)}.bind(this), false);
           break;
         default:
           break;
@@ -98,7 +97,9 @@ export const drawTools = /*@__PURE__*/(function (Control) {
 
   drawTools.prototype.turnOff = function turnOff(els) {
     els.forEach(el => {
-      el.classList.remove('on');
+      if(el.childNodes[0]){
+        el.childNodes[0].classList.remove('on');
+      }
     })
   }
 
@@ -114,45 +115,46 @@ export const drawTools = /*@__PURE__*/(function (Control) {
   }
 
   drawTools.prototype.addDrawInt = function addDrawInt(type) {
+    let drawType = type === 'Line' ? 'LineString' : type;
     let drawInt = new Draw({
       source: this.getVectorSource(),
-      type: type
+      type: drawType
     });
     this.getMap().addInteraction(drawInt);
     return drawInt;
   }
 
-  drawTools.prototype.addRemoveInt = function addRemoveInt(evt, type) {
-    this.turnOff(evt.target.parentNode.childNodes);
+  drawTools.prototype.addRemoveInt = function addRemoveInt(btn, type) {
+    this.turnOff(btn.parentNode.childNodes);
     if (drawInteraction && drawType === type) {
       this.getMap().removeInteraction(drawInteraction);
       drawInteraction = null;
     } else if (drawInteraction && drawType !== type) {
-      evt.target.classList.add('on')
+      btn.childNodes[0].classList.add('on')
       drawType = type
       this.getMap().removeInteraction(drawInteraction);
       drawInteraction = this.addDrawInt(drawType);
     } else {
-      evt.target.classList.add('on')
+      btn.childNodes[0].classList.add('on')
       drawType = type
       drawInteraction = this.addDrawInt(drawType);
     }
   }
 
-  drawTools.prototype.polygon = function polygon(evt) {
-    this.addDrawInt(evt, 'Polygon');
+  drawTools.prototype.polygon = function polygon(btn) {
+    this.addRemoveInt(btn, 'Polygon');
   };
 
-  drawTools.prototype.line = function polygon(evt) {
-    this.addDrawInt(evt, 'Line');
+  drawTools.prototype.line = function line(btn) {
+    this.addRemoveInt(btn, 'Line');
   };
 
-  drawTools.prototype.circle = function polygon(evt) {
-    this.addDrawInt(evt, 'Circle');
+  drawTools.prototype.circle = function circle(btn) {
+    this.addRemoveInt(btn, 'Circle');
   };
 
-  drawTools.prototype.point = function polygon(evt) {
-    this.addDrawInt(evt, 'Point');
+  drawTools.prototype.point = function point(btn) {
+    this.addRemoveInt(btn, 'Point');
   };
 
   return drawTools;
