@@ -7,6 +7,28 @@
   pointer-events: none;
 }
 
+#map {
+  width: 100vw;
+  height: 100vh;
+}
+
+.side-tool {
+  top: 5.5em;
+  left: .5em;
+}
+
+.on{
+  color:lightgreen;
+}
+
+.side-tools{
+  display: block;
+  height:105px;
+  width:27px;
+  top: 5.5em;
+  left: .5em;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
