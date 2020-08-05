@@ -110,7 +110,7 @@ export const drawTools = /*@__PURE__*/(function (Control) {
   drawTools.prototype.turnOff = function turnOff(els) {
     els.forEach(el => {
       if(el.childNodes[0]){
-        el.childNodes[0].classList.remove('on');
+        el.childNodes[0].style.color = '#fff'
       }
     })
   }
@@ -132,12 +132,12 @@ export const drawTools = /*@__PURE__*/(function (Control) {
       this.getMap().removeInteraction(drawInteraction);
       drawInteraction = null;
     } else if (drawInteraction && drawType !== type) {
-      btn.childNodes[0].classList.add('on')
+      btn.childNodes[0].style.color = 'lightgreen';
       drawType = type
       this.getMap().removeInteraction(drawInteraction);
       drawInteraction = this.addDrawInt(drawType);
     } else {
-      btn.childNodes[0].classList.add('on')
+      btn.childNodes[0].style.color = 'lightgreen';
       drawType = type
       drawInteraction = this.addDrawInt(drawType);
     }
