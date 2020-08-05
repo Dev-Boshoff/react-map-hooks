@@ -5,8 +5,9 @@ import Draw from 'ol/interaction/Draw';
 export const drawTools = /*@__PURE__*/(function (Control) {
   var drawInteraction;
   var drawType;
+  var options;
   function drawTools(opt_options) {
-    var options = opt_options || {};
+    options = opt_options || {};
     var buttonArr = [];
 
     for (var i = 0; i <= options.drawTypes.length; i++) {
@@ -70,7 +71,7 @@ export const drawTools = /*@__PURE__*/(function (Control) {
 
     if(options.right){element.style.right = options.left + "em"  };
 
-    element.className = 'side-tools ol-unselectable ol-control';
+    element.className = 'ol-unselectable ol-control';
 
     buttonArr.forEach(btn => {
       let type = btn.getAttribute('Type');
@@ -114,21 +115,11 @@ export const drawTools = /*@__PURE__*/(function (Control) {
     })
   }
 
-  drawTools.prototype.getVectorSource = function getVectorSource() {
-    let s;
-    let ls = this.getMap().getLayers().getArray();
-    for (var i = 0; i <= ls.length; i++) {
-      if (ls[i].get('layername') === 'vector') {
-        s = ls[i].getSource();
-        return s;
-      };
-    };
-  }
 
   drawTools.prototype.addDrawInt = function addDrawInt(type) {
     let drawType = type === 'Line' ? 'LineString' : type;
     let drawInt = new Draw({
-      source: this.getVectorSource(),
+      source: options.layer.getSource(),
       type: drawType
     });
     this.getMap().addInteraction(drawInt);

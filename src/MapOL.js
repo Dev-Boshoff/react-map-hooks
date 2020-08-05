@@ -20,7 +20,7 @@ var vector = new VectorLayer({
 vector.set("layername", "vector", true);
 
 const olMap = new Map({
-  controls: defaultControls().extend([new ScaleLine(), new FullScreen(), new drawTools({drawTypes:['Polygon','Circle','Line','Point'],top:5.5,left:.5})]),
+  controls: defaultControls().extend([new ScaleLine(), new FullScreen(), new drawTools({layer: vector,drawTypes:['Polygon','Circle','Line','Point'],top:5.5,left:.5})]),
   layers: [
     
     new TileLayer({
@@ -34,6 +34,7 @@ const olMap = new Map({
   })
 
 });
+
 
 export default function MapOL() {
   useEffect(() => {
